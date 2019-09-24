@@ -68,6 +68,8 @@ function initTracker() {
     // check if userId has already been tracked as well
     if (!userId) {
 
+        console.log(paramsObj)
+
         if(paramsObj.MagnetaVerification) {
             console.log("verifying magneta conversion tracker...")
             window.alert("You have successfully installed magneta's conservion tracking software. Please close this tab and continue the sign up process.")
