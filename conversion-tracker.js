@@ -168,7 +168,7 @@ function showLanding() {
 
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
-    var srcString = '<html><body style="background:' + landing.bg + ';">Hello fans of <b>' + decodeURI(paramsObj.channel) + '</b> ' + landing.landingAddTxt +  '</body></html>';
+    var srcString = '';
 
     console.log("landing" + landing)
 
@@ -208,6 +208,20 @@ function showLanding() {
                   </div>
                </body>
             </html>`
+    } else {
+        console.log("promo code inactive");
+        srcString = `
+        <html>
+          <body style="font-family:Arial, Helvetica, sans-serif; ">
+              <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
+                  <div
+                      style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
+                      <h1>Welcome`+ decodeURI(paramsObj.channel) +`fans</h1>
+                      <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt +`}</p>
+                  </div>
+              </div>
+          </body>
+        </html>`
     }
 
     ifrm.setAttribute('srcdoc', srcString);
