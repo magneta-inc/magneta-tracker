@@ -179,7 +179,7 @@ function showLanding() {
             <body style="font-family:Arial, Helvetica, sans-serif; ">
             <script>
                 function getCopied() {
-                    navigator.clipboard.writeText("promocode");
+                    navigator.clipboard.writeText(`+ landing.promoCode + `);
                 }
             </script>
 
@@ -231,7 +231,7 @@ function showLanding() {
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "position:absolute; left:70%; top:100px;"
+    closeBtn.style = "position:absolute; left:25%; top:100px;"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
