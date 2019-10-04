@@ -168,7 +168,45 @@ function showLanding() {
 
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
-    var srcString = '<html><body style="background:' + landing[0] + ';">Hello fans of <b>' + decodeURI(paramsObj.channel) + '</b> ' + landing[1] +  '</body></html>';
+    var srcString = '<html><body style="background:' + landing.bg + ';">Hello fans of <b>' + decodeURI(paramsObj.channel) + '</b> ' + landing.landingAddTxt +  '</body></html>';
+
+    if(landing.promoCode) {
+        console.log("promo code active");
+        srcString = `
+            <html>
+            <body style="font-family:Arial, Helvetica, sans-serif; ">
+            <script>
+                function getCopied() {
+                    navigator.clipboard.writeText("promocode");
+                }
+            </script>
+
+            <div style="width: 600px; text-align: center; background: ` + landing.landingBg + `;">
+                    <div
+                    style="padding: 2rem 0rem;  color:black; font-size: 1.25rem">
+                      <h1>Welcome, ` + decodeURI(paramsObj.channel) + ` fans</h1>
+                    </div>
+                    <div
+                    style="padding: 1rem 0rem; color:#4a5568; background: #edf2f7; ">
+                      <h3>Use the promo code below to get ` + landing.promoDiscount + ` off <br/> ` + landing.landingAddTxt + `</h3>
+                      <div
+                      style="display: flex; width:16rem; padding: 1rem 0rem; margin: 0px auto;">
+                        <div
+                        style="border-radius: 2px 0px 0px 2px; background: #fff; padding: .5rem .5rem; width:12rem; text-align:left; font-size:1rem;">
+                          `+ landing.promoCode + `
+                        </div>
+                        <button
+                          onclick="getCopied()"
+                          style="border:none; color:white; font-size:.75rem; background: ` + landing.landingBg + `; padding: .5rem .25rem; width:4rem; border-radius: 0px 2px 2px 0px;"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+               </body>
+            </html>`
+    }
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
