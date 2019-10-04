@@ -170,6 +170,8 @@ function showLanding() {
     var closeBtn = document.createElement('button')
     var srcString = '<html><body style="background:' + landing.bg + ';">Hello fans of <b>' + decodeURI(paramsObj.channel) + '</b> ' + landing.landingAddTxt +  '</body></html>';
 
+    console.log("landing" + landing)
+
     if(landing.promoCode) {
         console.log("promo code active");
         srcString = `
