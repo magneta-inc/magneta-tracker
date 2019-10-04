@@ -212,7 +212,7 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'height:200px;position:absolute;top:100px;left:40%;');
+    ifrm.setAttribute('style', 'width: 600px;height:400px;position:absolute;top:100px;left:40%;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
