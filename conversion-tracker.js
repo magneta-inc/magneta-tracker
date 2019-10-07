@@ -137,8 +137,8 @@ function getLandingInfo(index, channel, userId) {
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
       console.log("response:")
-      console.log(xmlHttp.responseText)
-      landing = JSON.parse(xmlHttp.responseText)
+      console.log("[" + xmlHttp.responseText + "]")
+      landing = JSON.parse("[" + xmlHttp.responseText + "]")
     }
     xmlHttp.send(null);
 }
@@ -233,7 +233,7 @@ function showLanding() {
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "position:absolute; left:25%; top:100px;"
+    closeBtn.style = "position:absolute; left:25.52%; top:107px;"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
