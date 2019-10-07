@@ -138,7 +138,7 @@ function getLandingInfo(index, channel, userId) {
     xmlHttp.onreadystatechange = () => {
       console.log("response:")
       console.log("[" + xmlHttp.responseText + "]")
-      landing = JSON.parse("[" + xmlHttp.responseText + "]")
+      landing = JSON.parse("'" + xmlHttp.responseText + "'")
     }
     xmlHttp.send(null);
 }
