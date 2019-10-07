@@ -2,6 +2,7 @@ const dbURL = 'https://magneta-mvp.herokuapp.com/users'
 let userId;
 let campaign;
 let landing;
+let paramsObj;
 
 const getUrlParams = () => {
     const uurl = window.location.href;
@@ -63,7 +64,7 @@ function getCookie(cname) {
 function initTracker() {
     userId = getCookie("userId");
 
-    let paramsObj = getUrlParams();
+    paramsObj = getUrlParams();
 
     // check if userId has already been tracked as well
     if (!userId) {
@@ -92,8 +93,6 @@ function initTracker() {
 }
 
 function Track() {
-    let paramsObj = getUrlParams();
-
     // send to database as a click to the site
     const clickReq = dbURL + '/updateClicks/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
     postReq(clickReq, null)
@@ -117,7 +116,9 @@ function getCampaign(userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-      campaign = JSON.parse(xmlHttp.responseText)
+        if (xmlHttp.readyState==4 && xmlHttp.status==200) {
+            campaign = JSON.parse(xmlHttp.responseText)
+        }
     }
     xmlHttp.send(null);
 }
@@ -136,8 +137,6 @@ function getLandingInfo(index, channel, userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-      console.log("response:")
-      console.log(xmlHttp.responseText)
       if (xmlHttp.readyState==4 && xmlHttp.status==200) {
           landing = JSON.parse(xmlHttp.responseText)
       }
@@ -168,13 +167,10 @@ function closeIFrame() {
 }
 
 function showLanding() {
-    let paramsObj = getUrlParams();
 
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
     var srcString = '';
-
-    console.log("landing keys " + Object.keys(landing))
 
     if(landing.promoCode) {
         console.log("promo code active");
@@ -230,7 +226,7 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'width: 617px;height:358px;position:absolute;top:100px;left:25%;');
+    ifrm.setAttribute('style', 'border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
@@ -242,7 +238,7 @@ function showLanding() {
 }
 
 function checkLanding() {
-    let paramsObj = getUrlParams();
+    paramsObj = getUrlParams();
 
     if(paramsObj.landing) {
         getLandingInfo(paramsObj.campaign,decodeURI(paramsObj.channel), userId);
