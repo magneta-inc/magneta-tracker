@@ -172,7 +172,7 @@ function showLanding() {
     var closeBtn = document.createElement('button')
     var srcString = '';
 
-    console.log("landing" + landing)
+    console.log("landing keys " + Object.keys(landing))
 
     if(landing.promoCode) {
         console.log("promo code active");
