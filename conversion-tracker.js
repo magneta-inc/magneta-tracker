@@ -1,5 +1,4 @@
-//const dbURL = 'https://magneta-mvp.herokuapp.com/users'
-const dbURL = 'http://localhost:4000/users';
+const dbURL = 'https://magneta-mvp.herokuapp.com/users'
 let userId;
 let campaign;
 let landing;
