@@ -117,7 +117,7 @@ function Track() {
 function Verify(userId) {
     const url = dbURL + '/verify/' + userId;
     const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", url, true);
+    xmlHttp.open("POST", url, false);
     xmlHttp.send(null);
     console.log('running verify')
 
