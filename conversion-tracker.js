@@ -83,7 +83,7 @@ function initTracker() {
 
     if (paramsObj.userId && paramsObj.MagnetaVerification) {
         console.log("verifying magneta conversion tracker...")
-        Verify(userId);
+        Verify(paramsObj.userId);
         //window.alert("You have successfully installed magneta's conservion tracking software. Please close this tab and continue the sign up process.")
     }
 
