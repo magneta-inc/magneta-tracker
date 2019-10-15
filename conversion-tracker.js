@@ -119,6 +119,7 @@ function Verify(userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("POST", url, true);
     xmlHttp.send(null);
+    console.log('running verify')
 
 }
 
