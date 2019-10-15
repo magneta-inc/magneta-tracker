@@ -70,13 +70,8 @@ function initTracker() {
 
         console.log(paramsObj)
 
-        if(paramsObj.MagnetaVerification) {
-            console.log("verifying magneta conversion tracker...")
-            window.alert("You have successfully installed magneta's conservion tracking software. Please close this tab and continue the sign up process.")
-        }
 
-        if(!paramsObj.userId) {
-            console.log("nothing for us to do...")
+        if (!paramsObj.userId) {
             return;
         } else {
             userId = paramsObj.userId;
@@ -84,6 +79,13 @@ function initTracker() {
 
         setCookieObj(paramsObj, 30);
     }
+
+    if (paramsObj.userId && paramsObj.MagnetaVerification) {
+        console.log("verifying magneta conversion tracker...")
+        Verify(userId);
+        //window.alert("You have successfully installed magneta's conservion tracking software. Please close this tab and continue the sign up process.")
+    }
+
 
     // Get campaign info
     getCampaign(userId);
@@ -111,22 +113,30 @@ function Track() {
         postReq(convReq)
     }
 }
+function Verify(userId) {
+    const url = dbURL + '/verify/' + userId;
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", url, true);
+    xmlHttp.send(null);
+
+}
+
 
 function getCampaign(userId) {
     const url = dbURL + '/' + userId
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-      campaign = JSON.parse(xmlHttp.responseText)
+        campaign = JSON.parse(xmlHttp.responseText)
     }
     xmlHttp.send(null);
 }
 
-function waitForCampaign(){
-    if(typeof(campaign) !== "undefined"){
+function waitForCampaign() {
+    if (typeof (campaign) !== "undefined") {
         Track();
     }
-    else{
+    else {
         setTimeout(waitForCampaign, 250);
     }
 }
@@ -136,16 +146,16 @@ function getLandingInfo(index, channel, userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-      landing = JSON.parse(xmlHttp.responseText)
+        landing = JSON.parse(xmlHttp.responseText)
     }
     xmlHttp.send(null);
 }
 
 function waitForLanding() {
-    if(typeof(landing) !== "undefined"){
+    if (typeof (landing) !== "undefined") {
         showLanding();
     }
-    else{
+    else {
         setTimeout(waitForLanding, 250);
     }
 }
@@ -172,7 +182,7 @@ function showLanding() {
 
     console.log("landing" + landing)
 
-    if(landing.promoCode) {
+    if (landing.promoCode) {
         console.log("promo code active");
         srcString = `
             <html>
@@ -216,8 +226,8 @@ function showLanding() {
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome`+ decodeURI(paramsObj.channel) +`fans</h1>
-                      <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt +`}</p>
+                      <h1>Welcome`+ decodeURI(paramsObj.channel) + `fans</h1>
+                      <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt + `}</p>
                   </div>
               </div>
           </body>
@@ -240,8 +250,8 @@ function showLanding() {
 function checkLanding() {
     let paramsObj = getUrlParams();
 
-    if(paramsObj.landing) {
-        getLandingInfo(paramsObj.campaign,decodeURI(paramsObj.channel), userId);
+    if (paramsObj.landing) {
+        getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
         waitForLanding();
     }
 }
