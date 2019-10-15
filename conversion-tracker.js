@@ -89,9 +89,9 @@ function initTracker() {
 
 
     // Get campaign info
-    getCampaign(userId);
+    //getCampaign(userId);
 
-    waitForCampaign();
+    //waitForCampaign();
 }
 
 function Track() {
