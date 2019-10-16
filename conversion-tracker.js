@@ -62,32 +62,17 @@ function getCookie(cname) {
 }
 
 function initTracker() {
-    userId = getCookie("userId");
 
     paramsObj = getUrlParams();
 
     // check if userId has already been tracked as well
-    if (!userId) {
 
-        console.log(paramsObj)
-
-        if(paramsObj.MagnetaVerification) {
-            console.log("verifying magneta conversion tracker...")
-            window.alert("You have successfully installed magneta's conservion tracking software. Please close this tab and continue the sign up process.")
-        }
-
-        if(!paramsObj.userId) {
-            console.log("nothing for us to do...")
-            return;
-        } else {
-            userId = paramsObj.userId;
-        }
-
-        setCookieObj(paramsObj, 30);
+    if (paramsObj.userId && paramsObj.MagnetaVerification) {
+        console.log("verifying magneta conversion tracker...")
+        Verify(paramsObj.userId);
     }
-
     // Get campaign info
-    getCampaign(userId);
+    getCampaign(paramsObj.userId);
 
     waitForCampaign();
 }
@@ -116,18 +101,30 @@ function getCampaign(userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-        if (xmlHttp.readyState==4 && xmlHttp.status==200) {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             campaign = JSON.parse(xmlHttp.responseText)
         }
     }
     xmlHttp.send(null);
 }
+function Verify(userId) {
+    const url = dbURL + '/verify/' + userId;
+    console.log(url);
+    const xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("POST", url, false);
+    xmlHttp.onreadystatechange = () => {
+        console.log(JSON.parse(xmlHttp.responseText));
+    }
+    xmlHttp.send(null);
+    console.log('running verify');
 
-function waitForCampaign(){
-    if(typeof(campaign) !== "undefined"){
+}
+
+function waitForCampaign() {
+    if (typeof (campaign) !== "undefined") {
         Track();
     }
-    else{
+    else {
         setTimeout(waitForCampaign, 250);
     }
 }
@@ -137,18 +134,18 @@ function getLandingInfo(index, channel, userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-      if (xmlHttp.readyState==4 && xmlHttp.status==200) {
-          landing = JSON.parse(xmlHttp.responseText)
-      }
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            landing = JSON.parse(xmlHttp.responseText)
+        }
     }
     xmlHttp.send(null);
 }
 
 function waitForLanding() {
-    if(typeof(landing) !== "undefined"){
+    if (typeof (landing) !== "undefined") {
         showLanding();
     }
-    else{
+    else {
         setTimeout(waitForLanding, 250);
     }
 }
@@ -172,11 +169,11 @@ function showLanding() {
     var closeBtn = document.createElement('button')
     var srcString = '';
 
-    if(landing.promoCode) {
+    if (landing.promoCode) {
         console.log("promo code active");
         srcString = `
             <html>
-            <body style="font-family:Arial, Helvetica, sans-serif; ">
+            <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
             <script>
                 function getCopied() {
                     navigator.clipboard.writeText(`+ landing.promoCode + `);
@@ -212,12 +209,12 @@ function showLanding() {
         console.log("promo code inactive");
         srcString = `
         <html>
-          <body style="font-family:Arial, Helvetica, sans-serif; ">
+          <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome`+ decodeURI(paramsObj.channel) +`fans</h1>
-                      <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt +`}</p>
+                      <h1>Welcome`+ decodeURI(paramsObj.channel) + `fans</h1>
+                      <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt + `}</p>
                   </div>
               </div>
           </body>
@@ -226,12 +223,12 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "position:absolute; left:25.52%; top:107px;"
+    closeBtn.style = "z-index:16777271; position:absolute; left:25.52%; top:107px;"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
@@ -240,8 +237,8 @@ function showLanding() {
 function checkLanding() {
     paramsObj = getUrlParams();
 
-    if(paramsObj.landing) {
-        getLandingInfo(paramsObj.campaign,decodeURI(paramsObj.channel), userId);
+    if (paramsObj.landing) {
+        getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
         waitForLanding();
     }
 }
