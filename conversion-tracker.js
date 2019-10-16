@@ -185,16 +185,15 @@ function closeIFrame() {
 }
 
 function showLanding() {
+    function showLanding() {
 
-    var ifrm = document.createElement('iframe');
-    var closeBtn = document.createElement('button')
-    var srcString = '';
+        var ifrm = document.createElement('iframe');
+        var closeBtn = document.createElement('button')
+        var srcString = '';
 
-    console.log("landing" + landing)
-
-    if (landing.promoCode) {
-        console.log("promo code active");
-        srcString = `
+        if (landing.promoCode) {
+            console.log("promo code active");
+            srcString = `
             <html>
             <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
             <script>
@@ -202,7 +201,6 @@ function showLanding() {
                     navigator.clipboard.writeText(`+ landing.promoCode + `);
                 }
             </script>
-
             <div style="width: 600px; text-align: center; background: ` + landing.landingBg + `;">
                     <div
                     style="padding: 2rem 0rem;  color:black; font-size: 1.25rem">
@@ -228,9 +226,9 @@ function showLanding() {
                   </div>
                </body>
             </html>`
-    } else {
-        console.log("promo code inactive");
-        srcString = `
+        } else {
+            console.log("promo code inactive");
+            srcString = `
         <html>
           <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
@@ -242,29 +240,29 @@ function showLanding() {
               </div>
           </body>
         </html>`
+        }
+
+        ifrm.setAttribute('srcdoc', srcString);
+        ifrm.setAttribute('id', 'greetFrame')
+        ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
+
+        closeBtn.onclick = closeIFrame;
+        closeBtn.innerHTML = "close"
+        closeBtn.setAttribute('id', 'closeBtn')
+        closeBtn.style = "position:absolute; left:25.52%; top:107px;"
+
+        document.body.appendChild(ifrm)
+        document.body.appendChild(closeBtn)
     }
 
-    ifrm.setAttribute('srcdoc', srcString);
-    ifrm.setAttribute('id', 'greetFrame');
-    ifrm.setAttribute('style', 'z-index:16777271; width: 617px;height:358px;position:absolute;top:100px;left:40%;');
+    function checkLanding() {
+        let paramsObj = getUrlParams();
 
-    closeBtn.onclick = closeIFrame;
-    closeBtn.innerHTML = "close";
-    closeBtn.setAttribute('id', 'closeBtn');
-    closeBtn.style = "position:absolute; left:25%; top:100px;";
-
-    document.body.appendChild(ifrm)
-    document.body.appendChild(closeBtn)
-}
-
-function checkLanding() {
-    let paramsObj = getUrlParams();
-
-    if (paramsObj.landing) {
-        getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
-        waitForLanding();
+        if (paramsObj.landing) {
+            getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
+            waitForLanding();
+        }
     }
-}
 
-initTracker();
-window.onload = checkLanding
+    initTracker();
+    window.onload = checkLanding
