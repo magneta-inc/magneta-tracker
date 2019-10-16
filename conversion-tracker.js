@@ -191,7 +191,7 @@ function showLanding() {
         console.log("promo code active");
         srcString = `
             <html>
-            <body style="font-family:Arial, Helvetica, sans-serif; ">
+            <body style="z-index:16777271,font-family:Arial, Helvetica, sans-serif; ">
             <script>
                 function getCopied() {
                     navigator.clipboard.writeText(`+ landing.promoCode + `);
@@ -227,7 +227,7 @@ function showLanding() {
         console.log("promo code inactive");
         srcString = `
         <html>
-          <body style="font-family:Arial, Helvetica, sans-serif; ">
+          <body style="z-index:16777271, font-family:Arial, Helvetica, sans-serif; ">
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
