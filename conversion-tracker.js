@@ -79,7 +79,7 @@ function initTracker() {
             userId = paramsObj.userId;
         }
 
-        setCookieObj(paramsObj, 30);
+        //setCookieObj(paramsObj, 30);
     }
 
     if (paramsObj.userId && paramsObj.MagnetaVerification) {
