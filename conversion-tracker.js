@@ -241,12 +241,12 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'width: 617px;height:358px;position:absolute;top:100px;left:40%;');
+    ifrm.setAttribute('style', 'z-index:16777271; width: 617px;height:358px;position:absolute;top:100px;left:40%;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "position:absolute; left:25%; top:100px;"
+    closeBtn.style = "z-index:16777271 position:absolute; left:25%; top:100px;"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
