@@ -1,5 +1,5 @@
-//const dbURL = 'https://magneta-mvp.herokuapp.com/users'
-const dbURL = 'http://localhost:4000/users'
+
+let dbURL;
 let userId;
 let campaign;
 let landing;
@@ -66,6 +66,12 @@ function initTracker() {
 
     paramsObj = getUrlParams();
     userId = paramsObj.userId;
+    if (paramsObj.testing) {
+        dbURL = 'http://localhost:4000/users';
+
+    } else {
+        dbURL = 'https://magneta-mvp.herokuapp.com/users';
+    }
     // check if userId has already been tracked as well
 
     if (paramsObj.userId && paramsObj.MagnetaVerification) {
@@ -224,12 +230,12 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%; overflow:hidden;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "z-index:16777271; position:absolute; left:25.52%; top:107px;"
+    closeBtn.style = "z-index:16777271; position:absolute; left:25.52%; top:107px"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
