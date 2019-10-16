@@ -65,7 +65,7 @@ function getCookie(cname) {
 function initTracker() {
     userId = getCookie("userId");
 
-    let paramsObj = getUrlParams();
+    paramsObj = getUrlParams();
 
     // check if userId has already been tracked as well
     if (!userId) {
