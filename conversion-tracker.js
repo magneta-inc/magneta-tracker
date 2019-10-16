@@ -247,7 +247,7 @@ function showLanding() {
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
     closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "position:absolute; left:25.52%; top:107px;"
+    closeBtn.style = "z-index:16777271; position:absolute; left:25.52%; top:107px;"
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
