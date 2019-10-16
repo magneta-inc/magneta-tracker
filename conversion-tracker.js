@@ -185,15 +185,13 @@ function closeIFrame() {
 }
 
 function showLanding() {
-    function showLanding() {
+    var ifrm = document.createElement('iframe');
+    var closeBtn = document.createElement('button')
+    var srcString = '';
 
-        var ifrm = document.createElement('iframe');
-        var closeBtn = document.createElement('button')
-        var srcString = '';
-
-        if (landing.promoCode) {
-            console.log("promo code active");
-            srcString = `
+    if (landing.promoCode) {
+        console.log("promo code active");
+        srcString = `
             <html>
             <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
             <script>
@@ -226,9 +224,9 @@ function showLanding() {
                   </div>
                </body>
             </html>`
-        } else {
-            console.log("promo code inactive");
-            srcString = `
+    } else {
+        console.log("promo code inactive");
+        srcString = `
         <html>
           <body style="z-index:16777271; font-family:Arial, Helvetica, sans-serif; ">
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
@@ -240,29 +238,29 @@ function showLanding() {
               </div>
           </body>
         </html>`
-        }
-
-        ifrm.setAttribute('srcdoc', srcString);
-        ifrm.setAttribute('id', 'greetFrame')
-        ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
-
-        closeBtn.onclick = closeIFrame;
-        closeBtn.innerHTML = "close"
-        closeBtn.setAttribute('id', 'closeBtn')
-        closeBtn.style = "position:absolute; left:25.52%; top:107px;"
-
-        document.body.appendChild(ifrm)
-        document.body.appendChild(closeBtn)
     }
 
-    function checkLanding() {
-        let paramsObj = getUrlParams();
+    ifrm.setAttribute('srcdoc', srcString);
+    ifrm.setAttribute('id', 'greetFrame')
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%;');
 
-        if (paramsObj.landing) {
-            getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
-            waitForLanding();
-        }
+    closeBtn.onclick = closeIFrame;
+    closeBtn.innerHTML = "close"
+    closeBtn.setAttribute('id', 'closeBtn')
+    closeBtn.style = "position:absolute; left:25.52%; top:107px;"
+
+    document.body.appendChild(ifrm)
+    document.body.appendChild(closeBtn)
+}
+
+function checkLanding() {
+    let paramsObj = getUrlParams();
+
+    if (paramsObj.landing) {
+        getLandingInfo(paramsObj.campaign, decodeURI(paramsObj.channel), userId);
+        waitForLanding();
     }
+}
 
-    initTracker();
-    window.onload = checkLanding
+initTracker();
+window.onload = checkLanding;
