@@ -3,6 +3,7 @@ const dbURL = 'http://localhost:4000/users';
 let userId;
 let campaign;
 let landing;
+let paramsObj;
 
 const getUrlParams = () => {
     const uurl = window.location.href;
@@ -89,14 +90,13 @@ function initTracker() {
 
 
     // Get campaign info
-    //getCampaign(userId);
+    getCampaign(userId);
 
-    //waitForCampaign();
+    waitForCampaign();
 }
 
-function Track() {
-    let paramsObj = getUrlParams();
 
+function Track() {
     // send to database as a click to the site
     const clickReq = dbURL + '/updateClicks/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
     postReq(clickReq, null)
@@ -114,6 +114,7 @@ function Track() {
         postReq(convReq)
     }
 }
+
 function Verify(userId) {
     const url = dbURL + '/verify/' + userId;
     console.log(url);
@@ -133,7 +134,9 @@ function getCampaign(userId) {
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-        campaign = JSON.parse(xmlHttp.responseText)
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            campaign = JSON.parse(xmlHttp.responseText)
+        }
     }
     xmlHttp.send(null);
 }
@@ -146,16 +149,18 @@ function waitForCampaign() {
         setTimeout(waitForCampaign, 250);
     }
 }
-
 function getLandingInfo(index, channel, userId) {
     const url = dbURL + '/getLandingInfo/' + index + '/' + channel + '/' + userId
     const xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, true);
     xmlHttp.onreadystatechange = () => {
-        landing = JSON.parse(xmlHttp.responseText)
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            landing = JSON.parse(xmlHttp.responseText)
+        }
     }
     xmlHttp.send(null);
 }
+
 
 function waitForLanding() {
     if (typeof (landing) !== "undefined") {
@@ -180,7 +185,6 @@ function closeIFrame() {
 }
 
 function showLanding() {
-    let paramsObj = getUrlParams();
 
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
@@ -241,13 +245,13 @@ function showLanding() {
     }
 
     ifrm.setAttribute('srcdoc', srcString);
-    ifrm.setAttribute('id', 'greetFrame')
+    ifrm.setAttribute('id', 'greetFrame');
     ifrm.setAttribute('style', 'z-index:16777271; width: 617px;height:358px;position:absolute;top:100px;left:40%;');
 
     closeBtn.onclick = closeIFrame;
-    closeBtn.innerHTML = "close"
-    closeBtn.setAttribute('id', 'closeBtn')
-    closeBtn.style = "z-index:16777271; position:absolute; left:25%; top:100px;"
+    closeBtn.innerHTML = "close";
+    closeBtn.setAttribute('id', 'closeBtn');
+    closeBtn.style = "position:absolute; left:25%; top:100px;";
 
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
