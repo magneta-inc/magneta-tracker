@@ -65,7 +65,7 @@ function getCookie(cname) {
 function initTracker() {
 
     paramsObj = getUrlParams();
-
+    userId = paramsObj;
     // check if userId has already been tracked as well
 
     if (paramsObj.userId && paramsObj.MagnetaVerification) {
