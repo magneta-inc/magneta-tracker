@@ -64,6 +64,7 @@ const getUrlParams = () => {
     const uurl = window.location.href;
     let paramsObj = {};
     let params = uurl.split('?')[1];
+
     if (params) {
         params = params.split('#')[0];
         const paramsArr = params.split('&');
@@ -78,6 +79,7 @@ const getUrlParams = () => {
         }
 
     }
+    console.log(paramsObj);
     return paramsObj;
 };
 
