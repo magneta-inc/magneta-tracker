@@ -11,22 +11,24 @@ function initTracker() {
     paramsObj = getUrlParams();
     userId = paramsObj.userId;
     //Check if in testing mode or not and change dbURL 
-    if (paramsObj.testing) {
-        dbURL = 'http://localhost:4000/users';
+    if (!(Object.entries(paramsObj).length === 0 && obj.constructor === Object)) {
+        if (paramsObj.testing) {
+            dbURL = 'http://localhost:4000/users';
 
-    } else {
-        dbURL = 'https://magneta-mvp.herokuapp.com/users';
-    }
-    //Check if in verification mode and verify user 
-    if (paramsObj.userId && paramsObj.MagnetaVerification) {
-        console.log("verifying magneta conversion tracker...")
-        Verify(paramsObj.userId);
-    }
-    if (paramsObj.userId) {
-        console.log('running');
-        // Get campaign info
-        getCampaign(paramsObj.userId);
-        waitForCampaign();
+        } else {
+            dbURL = 'https://magneta-mvp.herokuapp.com/users';
+        }
+        //Check if in verification mode and verify user 
+        if (paramsObj.userId && paramsObj.MagnetaVerification) {
+            console.log("verifying magneta conversion tracker...")
+            Verify(paramsObj.userId);
+        }
+        if (paramsObj.userId) {
+            console.log('running');
+            // Get campaign info
+            getCampaign(paramsObj.userId);
+            waitForCampaign();
+        }
     }
 }
 
