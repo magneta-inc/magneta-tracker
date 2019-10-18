@@ -139,7 +139,7 @@ function Track() {
 }
 
 
-}
+
 
 function waitForCampaign() {
     if (typeof (campaign) !== "undefined") {
