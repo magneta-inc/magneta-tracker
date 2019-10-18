@@ -61,7 +61,7 @@ function Verify(userId) {
 //UTIL Functions
 //gets the URL params and returns a paramsObj 
 const getUrlParams = () => {
-    const uurl = window.location.href;
+    const uurl = location.href;
     console.log("from get URLPARAMS: ", uurl);
 
     let paramsObj = {};
