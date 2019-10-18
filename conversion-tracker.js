@@ -23,6 +23,7 @@ function initTracker() {
         Verify(paramsObj.userId);
     }
     if (paramsObj.userId) {
+        console.log('running');
         // Get campaign info
         getCampaign(paramsObj.userId);
         waitForCampaign();
