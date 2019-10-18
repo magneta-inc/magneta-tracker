@@ -5,104 +5,9 @@ let campaign;
 let landing;
 let paramsObj;
 
-const getUrlParams = () => {
-    const uurl = window.location.href;
-    let paramsObj = {};
-    let params = uurl.split('?')[1];
-    if (params) {
-        params = params.split('#')[0];
-        const paramsArr = params.split('&');
-        for (let i = 0; i < paramsArr.length; i++) {
-            let utmCombo = paramsArr[i]
-            let utmArr = utmCombo.split('=');
-            let tempObj = { [utmArr[0]]: utmArr[1] }
-            paramsObj = {
-                ...paramsObj,
-                ...tempObj
-            };
-        }
 
-    }
-    return paramsObj;
-};
 
-function setCookieObj(cobj, expDays) {
-    //set time to how many days to expire
-    const d = new Date();
-    d.setTime(d.getTime() + (expDays * 24 * 60 * 60 * 1000));
-    const expires = `expires = ${d.toUTCString()}`;
-    //Takes cookie object and then makes it a cookie
-    Object.keys(cobj).map((key) => {
-        document.cookie = `${key}= ${cobj[key]}; ${expires}; path=/;`
-        return null;
-    });
-}
-
-function setCoookie(cname, cval, expDays) {
-    const d = new Date();
-    d.setTime(d.getTime() + (expDays * 24 * 60 * 60 * 1000));
-    const expires = `expires = ${d.toUTCString()}`;
-    document.cookie = `${cname}= ${cval}; ${expires}; path=/`;
-}
-
-function getCookie(cname) {
-    const name = cname + "=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const CookieArr = decodedCookie.split(';');
-    for (let i = 0; i < CookieArr.length; i++) {
-        let c = CookieArr[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length)
-        }
-
-    }
-    return "";
-}
-
-function initTracker() {
-
-    paramsObj = getUrlParams();
-    userId = paramsObj.userId;
-    if (paramsObj.testing) {
-        dbURL = 'http://localhost:4000/users';
-
-    } else {
-        dbURL = 'https://magneta-mvp.herokuapp.com/users';
-    }
-    // check if userId has already been tracked as well
-
-    if (paramsObj.userId && paramsObj.MagnetaVerification) {
-        console.log("verifying magneta conversion tracker...")
-        Verify(paramsObj.userId);
-    }
-    // Get campaign info
-    getCampaign(paramsObj.userId);
-
-    waitForCampaign();
-}
-
-function Track() {
-    // send to database as a click to the site
-    const clickReq = dbURL + '/updateClicks/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
-    postReq(clickReq, null)
-    // check database if equal to or begins with
-    let begins = campaign.campaigns[paramsObj.campaign].destCond
-    // get request for get conversion location
-    const conLoc = campaign.campaigns[paramsObj.campaign].conversionDest;
-    let winLocation = window.location.pathname;
-
-    // Check if page constitutes a conversion
-    if (winLocation.includes(conLoc)) {
-        console.log("conversion")
-        //send to the database that there was conversions
-        const convReq = dbURL + '/updateConversions/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
-        postReq(convReq)
-    }
-}
-
+//Gets Campaign Info 
 function getCampaign(userId) {
     const url = dbURL + '/' + userId
     const xmlHttp = new XMLHttpRequest();
@@ -114,6 +19,8 @@ function getCampaign(userId) {
     }
     xmlHttp.send(null);
 }
+//Function to Verify if magneta is installed 
+
 function Verify(userId) {
     const url = dbURL + '/verify/' + userId;
     console.log(url);
@@ -124,6 +31,90 @@ function Verify(userId) {
     }
     xmlHttp.send(null);
     console.log('running verify');
+
+
+
+
+    //UTIL Functions
+    //gets the URL params and returns a paramsObj 
+    const getUrlParams = () => {
+        const uurl = window.location.href;
+        let paramsObj = {};
+        let params = uurl.split('?')[1];
+        if (params) {
+            params = params.split('#')[0];
+            const paramsArr = params.split('&');
+            for (let i = 0; i < paramsArr.length; i++) {
+                let utmCombo = paramsArr[i]
+                let utmArr = utmCombo.split('=');
+                let tempObj = { [utmArr[0]]: utmArr[1] }
+                paramsObj = {
+                    ...paramsObj,
+                    ...tempObj
+                };
+            }
+
+        }
+        return paramsObj;
+    };
+
+    //
+    function setCookieObj(cobj, expDays) {
+        //set time to how many days to expire
+        const d = new Date();
+        d.setTime(d.getTime() + (expDays * 24 * 60 * 60 * 1000));
+        const expires = `expires = ${d.toUTCString()}`;
+        //Takes cookie object and then makes it a cookie
+        Object.keys(cobj).map((key) => {
+            document.cookie = `${key}= ${cobj[key]}; ${expires}; path=/;`
+            return null;
+        });
+    }
+
+    function setCoookie(cname, cval, expDays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (expDays * 24 * 60 * 60 * 1000));
+        const expires = `expires = ${d.toUTCString()}`;
+        document.cookie = `${cname}= ${cval}; ${expires}; path=/`;
+    }
+
+    function getCookie(cname) {
+        const name = cname + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const CookieArr = decodedCookie.split(';');
+        for (let i = 0; i < CookieArr.length; i++) {
+            let c = CookieArr[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length)
+            }
+
+        }
+        return "";
+    }
+
+
+    function Track() {
+        // send to database as a click to the site
+        const clickReq = dbURL + '/updateClicks/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
+        postReq(clickReq, null)
+        // check database if equal to or begins with
+        let begins = campaign.campaigns[paramsObj.campaign].destCond
+        // get request for get conversion location
+        const conLoc = campaign.campaigns[paramsObj.campaign].conversionDest;
+        let winLocation = window.location.pathname;
+
+        // Check if page constitutes a conversion
+        if (winLocation.includes(conLoc)) {
+            console.log("conversion")
+            //send to the database that there was conversions
+            const convReq = dbURL + '/updateConversions/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
+            postReq(convReq)
+        }
+    }
+
 
 }
 
@@ -171,11 +162,9 @@ function closeIFrame() {
 }
 
 function showLanding() {
-
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
     var srcString = '';
-
     if (landing.promoCode) {
         console.log("promo code active");
         srcString = `
@@ -240,7 +229,7 @@ function showLanding() {
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
 }
-
+//Pull up Landing Page 
 function checkLanding() {
     paramsObj = getUrlParams();
 
@@ -249,6 +238,32 @@ function checkLanding() {
         waitForLanding();
     }
 }
+
+
+//Main Function: starts the tracker 
+function initTracker() {
+
+    paramsObj = getUrlParams();
+    userId = paramsObj.userId;
+    //Check if in testing mode or not and change dbURL 
+    if (paramsObj.testing) {
+        dbURL = 'http://localhost:4000/users';
+
+    } else {
+        dbURL = 'https://magneta-mvp.herokuapp.com/users';
+    }
+    //Check if in verification mode and verify user 
+    if (paramsObj.userId && paramsObj.MagnetaVerification) {
+        console.log("verifying magneta conversion tracker...")
+        Verify(paramsObj.userId);
+    }
+    if (paramsObj.userId) {
+        // Get campaign info
+        getCampaign(paramsObj.userId);
+        waitForCampaign();
+    }
+}
+
 
 initTracker();
 window.onload = checkLanding
