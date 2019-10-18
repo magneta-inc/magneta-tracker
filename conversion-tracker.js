@@ -43,7 +43,6 @@ function getCampaign(userId) {
     xmlHttp.send(null);
 }
 //Function to Verify if magneta is installed 
-
 function Verify(userId) {
     const url = dbURL + '/verify/' + userId;
     console.log(url);
@@ -119,7 +118,16 @@ function getCookie(cname) {
 }
 
 
-function Track() {
+
+
+function waitForCampaign() {
+    if (typeof (campaign) !== "undefined") {
+        Track();
+    }
+    else {
+        setTimeout(waitForCampaign, 250);
+    }
+} function Track() {
     // send to database as a click to the site
     const clickReq = dbURL + '/updateClicks/' + paramsObj.campaign + '/' + paramsObj.channel + '/' + userId
     postReq(clickReq, null)
@@ -141,14 +149,6 @@ function Track() {
 
 
 
-function waitForCampaign() {
-    if (typeof (campaign) !== "undefined") {
-        Track();
-    }
-    else {
-        setTimeout(waitForCampaign, 250);
-    }
-}
 
 function getLandingInfo(index, channel, userId) {
     const url = dbURL + '/getLandingInfo/' + index + '/' + channel + '/' + userId
