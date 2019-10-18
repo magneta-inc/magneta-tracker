@@ -21,6 +21,7 @@ function initTracker() {
         }
         //Check if in verification mode and verify user 
         if (paramsObj.userId && paramsObj.MagnetaVerification) {
+            console.log(paramsObj.userId, paramsObj.MagnetaVerification)
             console.log("verifying magneta conversion tracker...")
             Verify(paramsObj.userId);
         }
@@ -65,8 +66,6 @@ function Verify(userId) {
 //gets the URL params and returns a paramsObj 
 const getUrlParams = () => {
     const uurl = location.href;
-    console.log("from get URLPARAMS: ", uurl);
-
     let paramsObj = {};
     let params = uurl.split('?')[1];
 
@@ -84,7 +83,6 @@ const getUrlParams = () => {
         }
 
     }
-    console.log(paramsObj);
     return paramsObj;
 };
 
