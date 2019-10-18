@@ -12,6 +12,7 @@ function initTracker() {
     userId = paramsObj.userId;
     //Check if in testing mode or not and change dbURL 
     if (!(Object.entries(paramsObj).length === 0 && paramsObj.constructor === Object)) {
+        console.log('this didnt work')
         if (paramsObj.testing) {
             dbURL = 'http://localhost:4000/users';
 
