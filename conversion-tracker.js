@@ -43,6 +43,7 @@ function getCampaign(userId) {
     xmlHttp.onreadystatechange = () => {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             campaign = JSON.parse(xmlHttp.responseText)
+            console.log(campaign);
         }
     }
     xmlHttp.send(null);
