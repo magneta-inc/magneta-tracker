@@ -25,7 +25,7 @@ function initTracker() {
             console.log("verifying magneta conversion tracker...")
             Verify(paramsObj.userId);
         }
-        if (paramsObj.userId) {
+        if (paramsObj.userId && !(paramsObj.MagnetaVerification)) {
             console.log('running');
             // Get campaign info
             getCampaign(paramsObj.userId);
