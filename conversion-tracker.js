@@ -198,8 +198,10 @@ function showLanding() {
     var hasProf = (landing.profilePicUrl === null) ? false : true
     var profPicString = ``
     if(hasProf) {
-        console.log("has profile pic is true")
+
         profPicString = `<img src="` + landing.profilePicUrl + `" />`
+        console.log("has profile pic is true = ", profPicString)
+        console.log(landing)
     }
 
     if (landing.promoCode) {
