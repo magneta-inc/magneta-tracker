@@ -196,6 +196,12 @@ function showLanding() {
     var closeBtn = document.createElement('button')
     var srcString = '';
     var hasProf = (landing.profilePicUrl === null) ? false : true
+    var profPicString = ``
+    if(hasProf) {
+        console.log("has profile pic is true")
+        profPicString = `<img src="` + landing.profilePicUrl + `" />`
+    }
+
     if (landing.promoCode) {
         console.log("promo code active");
         srcString = `
@@ -219,9 +225,7 @@ function showLanding() {
                       style="display: flex; width:16rem; padding: 1rem 0rem; margin: 0px auto;">
                         <div
                         style="border-radius: 2px 0px 0px 2px; background: #fff; padding: .5rem .5rem; width:12rem; text-align:left; font-size:1rem;">
-                          `+ hasProf ? `
-                          <img src="` + landing.profilePicUrl + `" />
-                          `:`` + `
+                          `+ profPicString  + `
                         </div>
                         <button
                           onclick="getCopied()"
