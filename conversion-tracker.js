@@ -197,11 +197,15 @@ function showLanding() {
     var srcString = '';
     var hasProf = (landing.profilePicUrl === null) ? false : true
     var profPicString = ``
-    if(hasProf) {
+    var iframHeight = 358
 
+    if(hasProf) {
         profPicString = `<img src="` + landing.profilePicUrl + `" />`
         console.log("has profile pic is true = ", profPicString)
         console.log(landing)
+        // Change IFrame height if there is a profile pic
+
+        iframHeight = 508
     }
 
     if (landing.promoCode) {
@@ -218,8 +222,9 @@ function showLanding() {
             <div style="width: 600px; text-align: center; background: ` + landing.landingBg + `;">
                     <div
                     style="padding: 2rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome, ` + decodeURI(paramsObj.channel) + ` fans</h1>
+                      <h1>Welcome` + decodeURI(paramsObj.channel) + ` fans</h1>
                     </div>
+                    ` + profPicString + `
                     <div
                     style="padding: 1rem 0rem; color:#4a5568; background: #edf2f7; ">
                       <h3>Use the promo code below to get ` + landing.promoDiscount + ` off <br/> ` + landing.landingAddTxt + `</h3>
@@ -227,7 +232,6 @@ function showLanding() {
                       style="display: flex; width:16rem; padding: 1rem 0rem; margin: 0px auto;">
                         <div
                         style="border-radius: 2px 0px 0px 2px; background: #fff; padding: .5rem .5rem; width:12rem; text-align:left; font-size:1rem;">
-                          `+ profPicString  + `
                         </div>
                         <button
                           onclick="getCopied()"
@@ -248,8 +252,8 @@ function showLanding() {
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
-                      ` + profPicString  + `
                       <h1>Welcome`+ decodeURI(paramsObj.channel) + `fans</h1>
+                      ` + profPicString + `
                       <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt + `}</p>
                   </div>
               </div>
@@ -259,7 +263,7 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%; overflow:hidden;');
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:'+ iframHeight +'px;position:absolute;top:100px;left:25%; overflow:hidden;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
