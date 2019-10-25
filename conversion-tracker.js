@@ -222,7 +222,7 @@ function showLanding() {
             <div style="width: 600px; text-align: center; background: ` + landing.landingBg + `;">
                     <div
                     style="padding: 2rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome` + decodeURI(paramsObj.channel) + ` fans</h1>
+                      <h1>Welcome ` + decodeURI(paramsObj.channel) + ` fans</h1>
                     </div>
                     ` + profPicString + `
                     <div
@@ -252,7 +252,7 @@ function showLanding() {
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome`+ decodeURI(paramsObj.channel) + `fans</h1>
+                      <h1>Welcome `+ decodeURI(paramsObj.channel) + `fans</h1>
                       ` + profPicString + `
                       <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt + `}</p>
                   </div>
