@@ -5,12 +5,12 @@ let campaign;
 let landing;
 let paramsObj;
 
-//Main Function: starts the tracker 
+//Main Function: starts the tracker
 function initTracker() {
 
     paramsObj = getUrlParams();
     userId = paramsObj.userId;
-    //Check if in testing mode or not and change dbURL 
+    //Check if in testing mode or not and change dbURL
     if (!(Object.entries(paramsObj).length === 0 && paramsObj.constructor === Object)) {
         console.log('this didnt work')
         if (paramsObj.testing) {
@@ -19,7 +19,7 @@ function initTracker() {
         } else {
             dbURL = 'https://magneta-mvp.herokuapp.com/users';
         }
-        //Check if in verification mode and verify user 
+        //Check if in verification mode and verify user
         if (paramsObj.userId && paramsObj.MagnetaVerification) {
             console.log(paramsObj.userId, paramsObj.MagnetaVerification)
             console.log("verifying magneta conversion tracker...")
@@ -35,7 +35,7 @@ function initTracker() {
 }
 
 
-//Gets Campaign Info 
+//Gets Campaign Info
 function getCampaign(userId) {
     const url = dbURL + '/' + userId
     const xmlHttp = new XMLHttpRequest();
@@ -48,7 +48,7 @@ function getCampaign(userId) {
     }
     xmlHttp.send(null);
 }
-//Function to Verify if magneta is installed 
+//Function to Verify if magneta is installed
 function Verify(userId) {
     const url = dbURL + '/verify/' + userId;
     console.log(url);
@@ -64,7 +64,7 @@ function Verify(userId) {
 }
 
 //UTIL Functions
-//gets the URL params and returns a paramsObj 
+//gets the URL params and returns a paramsObj
 const getUrlParams = () => {
     const uurl = location.href;
     let paramsObj = {};
@@ -195,6 +195,19 @@ function showLanding() {
     var ifrm = document.createElement('iframe');
     var closeBtn = document.createElement('button')
     var srcString = '';
+    var hasProf = (landing.profilePicUrl === null) ? false : true
+    var profPicString = ``
+    var iframHeight = 358
+
+    if(hasProf) {
+        profPicString = `<img src="` + landing.profilePicUrl + `" />`
+        console.log("has profile pic is true = ", profPicString)
+        console.log(landing)
+        // Change IFrame height if there is a profile pic
+
+        iframHeight = 508
+    }
+
     if (landing.promoCode) {
         console.log("promo code active");
         srcString = `
@@ -209,8 +222,9 @@ function showLanding() {
             <div style="width: 600px; text-align: center; background: ` + landing.landingBg + `;">
                     <div
                     style="padding: 2rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome, ` + decodeURI(paramsObj.channel) + ` fans</h1>
+                      <h1>Welcome ` + decodeURI(paramsObj.channel) + ` fans</h1>
                     </div>
+                    ` + profPicString + `
                     <div
                     style="padding: 1rem 0rem; color:#4a5568; background: #edf2f7; ">
                       <h3>Use the promo code below to get ` + landing.promoDiscount + ` off <br/> ` + landing.landingAddTxt + `</h3>
@@ -218,7 +232,6 @@ function showLanding() {
                       style="display: flex; width:16rem; padding: 1rem 0rem; margin: 0px auto;">
                         <div
                         style="border-radius: 2px 0px 0px 2px; background: #fff; padding: .5rem .5rem; width:12rem; text-align:left; font-size:1rem;">
-                          `+ landing.promoCode + `
                         </div>
                         <button
                           onclick="getCopied()"
@@ -239,7 +252,8 @@ function showLanding() {
               <div style="width: 600px; text-align:center; background: ` + landing.landingBg + `;">
                   <div
                       style="padding: 1rem 0rem;  color:black; font-size: 1.25rem">
-                      <h1>Welcome`+ decodeURI(paramsObj.channel) + `fans</h1>
+                      <h1>Welcome `+ decodeURI(paramsObj.channel) + `fans</h1>
+                      ` + profPicString + `
                       <p style="width:300px; height:auto; margin: 0rem auto; word-wrap: break-word; padding: 2rem 0rem;  color:black; font-size: 1rem;" >`+ landing.landingAddTxt + `}</p>
                   </div>
               </div>
@@ -249,7 +263,7 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:358px;position:absolute;top:100px;left:25%; overflow:hidden;');
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:'+ iframHeight +'px;position:absolute;top:100px;left:25%; overflow:hidden;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
@@ -259,7 +273,7 @@ function showLanding() {
     document.body.appendChild(ifrm)
     document.body.appendChild(closeBtn)
 }
-//Pull up Landing Page 
+//Pull up Landing Page
 function checkLanding() {
     paramsObj = getUrlParams();
 
