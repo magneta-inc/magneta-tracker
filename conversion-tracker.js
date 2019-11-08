@@ -199,8 +199,8 @@ function showLanding() {
     var profPicString = ``
     var iframHeight = 358
 
-    if(hasProf) {
-        profPicString = `<img src="` + landing.profilePicUrl + `" />`
+    if (hasProf) {
+        profPicString = `<img style="border-radius: 50%;" src="` + landing.profilePicUrl + `" />`
         console.log("has profile pic is true = ", profPicString)
         console.log(landing)
         // Change IFrame height if there is a profile pic
@@ -263,7 +263,7 @@ function showLanding() {
 
     ifrm.setAttribute('srcdoc', srcString);
     ifrm.setAttribute('id', 'greetFrame')
-    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:'+ iframHeight +'px;position:absolute;top:100px;left:25%; overflow:hidden;');
+    ifrm.setAttribute('style', 'z-index:16777271; border-style:none;width:617px;height:' + iframHeight + 'px;position:absolute;top:100px;left:25%; overflow:hidden;');
 
     closeBtn.onclick = closeIFrame;
     closeBtn.innerHTML = "close"
