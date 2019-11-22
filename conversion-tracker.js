@@ -253,7 +253,7 @@ setTimeout(function(magneta) {
               }
             }
           };
-          xmlHttp.send({ email });
+          xmlHttp.send(JSON.stringify({ email: email }));
         }
       };
     } else {
