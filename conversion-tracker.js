@@ -224,11 +224,10 @@ setTimeout(function(magneta) {
         } else {
           const xmlHttp = new XMLHttpRequest();
           xmlHttp.open("POST", `${dbUrl}/addEmail/${index}/${userId}`);
-          xmlhttp.setRequestHeader(
+          xmlHttp.setRequestHeader(
             "Content-Type",
             "application/json;charset=UTF-8"
           );
-
           xmlHttp.onreadystatechange = () => {
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
               let res = JSON.parse(xmlHttp.responseText);
